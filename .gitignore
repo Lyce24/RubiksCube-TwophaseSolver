@@ -87,3 +87,7 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+.idea/
+package_src/twophase/twophase
+package_src/twophase/data

@@ -1,5 +1,6 @@
 import twophase.solver as sv
 import twophase.cubie as cubie
+import time
 
 
 def test(n, t):
@@ -43,3 +44,7 @@ def test(n, t):
 
 # For comparison: Tomas Rokicki 2010 solved 1.000.000 random cubes *optimally* on a machine with 256 GB of RAM
 # {11: 0, 12: 1, 13: 14, 14: 172, 15: 2063, 16: 26448, 17: 267027, 18: 670407, 19: 33868, 20: 0}, average 17.71 moves
+
+start_time = time.time()
+test(1000, 0)
+print("--- %s seconds ---" % (time.time() - start_time))
