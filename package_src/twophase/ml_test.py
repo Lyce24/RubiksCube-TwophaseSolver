@@ -25,7 +25,7 @@ class MLP(nn.Module):
     def forward(self, x):
         return self.layers(x)
 
-filename = 'my_model_1.pickle'
+filename = 'phase1.pickle'
 loaded_model = pickle.load(open(filename, 'rb'))
 
 sum = 0
