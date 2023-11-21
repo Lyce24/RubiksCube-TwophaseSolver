@@ -356,14 +356,14 @@ def solveto(cubestring, goalstring, max_length=20, timeout=3):
 cubestring = 'DUUBULDBFRBFRRULLLBRDFFFBLURDBFDFDRFRULBLUFDURRBLBDUDL'
 print(solve(cubestring,19,2))
 
-print("Test")
-cb = cubie.CubieCube()
-cb.multiply(cubie.moveCube[Move.R1])
-print("cb:", cb)
-co_cube = coord.CoordCube(cb)  # the rotated/inverted cube in coordinate representation
-print("co_cube:", co_cube)
+# print("Test")
+# cb = cubie.CubieCube()
+# cb.multiply(cubie.moveCube[Move.R1])
+# print("cb:", cb)
+# co_cube = coord.CoordCube(cb)  # the rotated/inverted cube in coordinate representation
+# print("co_cube:", co_cube)
 
-dist = co_cube.get_depth_phase1()
-print("dist:", dist)
-dist = co_cube.get_depth_phase2(0,0)
-print("dist:", dist)
+# dist = co_cube.get_depth_phase1()
+# print("dist:", dist)
+# dist = co_cube.get_depth_phase2(0,0)
+# print("dist:", dist)
