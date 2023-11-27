@@ -1,11 +1,11 @@
 # ##################### The pruning tables cut the search tree during the search. ######################################
 # ##################### The pruning values are stored modulo 3 which saves a lot of memory. ############################
 
-import defs
-import enums
-import moves as mv
-import symmetries as sy
-import cubie as cb
+import twophase.defs as defs
+import twophase.enums as enums
+import twophase.moves as mv
+import twophase.symmetries as sy
+import twophase.cubie as cb
 from os import path
 import array as ar
 
@@ -17,6 +17,7 @@ cornslice_depth = None
 edgeslice_depth = None
 
 # ####################### functions to extract or set values in the pruning tables #####################################
+
 
 def get_flipslice_twist_depth3(ix):
     """get_fst_depth3(ix) is *exactly* the number of moves % 3 to solve phase 1 of a cube with index ix"""

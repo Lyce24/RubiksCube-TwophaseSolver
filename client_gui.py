@@ -2,7 +2,7 @@
 
 from tkinter import *
 import socket
-import cubie
+import twophase.cubie as cubie
 
 
 # ################################## Some global variables and constants ###############################################
@@ -93,13 +93,13 @@ def solve():
         return
     show_text('Connected with ' + remote_ip + '\n')
     try:
-        defstr = get_definition_string()+'\n'
+        defstr = get_definition_string() + '\n'
     except BaseException as e:
         show_text('Invalid facelet configuration.\nWrong or missing colors. ' + e.__doc__)
         return
     show_text(defstr)
     try:
-        s.sendall((defstr+'\n').encode())
+        s.sendall((defstr + '\n').encode())
     except BaseException as e:
         show_text('Cannot send cube configuration to server. ' + e.__doc__)
         return
@@ -142,7 +142,7 @@ def random():
 # ################################### Edit the facelet colors ##########################################################
 
 
-def click(_unused):
+def click(_event):
     """Define how to react on left mouse clicks."""
     global curcol
     idlist = canvas.find_withtag("current")

@@ -1,11 +1,11 @@
 # #################### Symmetry related functions. Symmetry considerations increase the performance of the solver.######
-import os
-from os import path
+
+from os import path, mkdir
 import array as ar
-import cubie as cb
-from defs import N_TWIST, N_SYM, N_SYM_D4h, N_FLIP, N_SLICE, N_CORNERS, N_UD_EDGES, N_MOVE, N_FLIPSLICE_CLASS, \
-    N_CORNERS_CLASS, FOLDER
-from enums import Corner as Co, Edge as Ed, Move as Mv, BS
+import twophase.cubie as cb
+from twophase.defs import FOLDER, N_TWIST, N_SYM, N_SYM_D4h, N_FLIP, N_SLICE, N_CORNERS, N_UD_EDGES, N_MOVE, \
+    N_FLIPSLICE_CLASS, N_CORNERS_CLASS
+from twophase.enums import Corner as Co, Edge as Ed, Move as Mv, BS
 
 INVALID = 65535
 uint32 = 'I' if ar.array('I').itemsize >= 4 else 'L'  # type codes differ between architectures
@@ -98,12 +98,12 @@ for s in range(N_SYM):
                 conj_move[N_MOVE * s + m] = m2
 ########################################################################################################################
 
-if not os.path.exists(FOLDER):
-    os.mkdir(FOLDER)
+if not path.exists(FOLDER):
+    mkdir(FOLDER)
 
 # ###### Generate the phase 1 table for the conjugation of the twist t by a symmetry s. twist_conj[t, s] = s*t*s^-1 ####
 fname = "conj_twist"
-if not path.isfile(os.path.join(FOLDER, fname)):
+if not path.isfile(path.join(FOLDER, fname)):
     print('On the first run, several tables will be created. This takes about 1/2 hour or longer '
           '(depending on the hardware).')
     print('All tables are stored in ' + path.dirname(path.abspath(path.join(FOLDER, fname))))
@@ -118,7 +118,7 @@ if not path.isfile(os.path.join(FOLDER, fname)):
             ss.corner_multiply(cc)  # s*t
             ss.corner_multiply(symCube[inv_idx[s]])  # s*t*s^-1
             twist_conj[N_SYM_D4h * t + s] = ss.get_twist()
-    fh = open(os.path.join(FOLDER, fname), "wb")
+    fh = open(path.join(FOLDER, fname), "wb")
     twist_conj.tofile(fh)
 else:
     print("loading " + fname + " table...")

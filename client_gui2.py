@@ -5,8 +5,8 @@
 
 from tkinter import *
 import socket
-import cubie
-import vision_params
+import twophase.cubie as cubie
+import twophase.vision_params as vision_params
 
 
 # ################################## some global variables and constants ###############################################
@@ -217,6 +217,7 @@ def transfer():
     for i in range(3):
         for j in range(3):
             canvas.itemconfig(facelet_id[dc[centercol]][i][j], fill=vision_params.face_col[i][j])
+
 # ######################################################################################################################
 
 #  ###################################### Generate and display the TK_widgets ##########################################

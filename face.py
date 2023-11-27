@@ -1,8 +1,8 @@
 # ####### The cube on the facelet level is described by positions of the colored stickers. #############################
 
-from defs import cornerFacelet, edgeFacelet, cornerColor, edgeColor
-from enums import Color, Corner, Edge
-import cubie
+from twophase.defs import cornerFacelet, edgeFacelet, cornerColor, edgeColor
+from twophase.enums import Color, Corner, Edge
+import twophase.cubie
 
 
 class FaceCube:
@@ -85,7 +85,7 @@ class FaceCube:
 
     def to_cubie_cube(self):
         """Return a cubie representation of the facelet cube."""
-        cc = cubie.CubieCube()
+        cc = twophase.cubie.CubieCube()
         cc.cp = [-1] * 8  # invalidate corner and edge permutation
         cc.ep = [-1] * 12
         for i in Corner:

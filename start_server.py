@@ -1,6 +1,6 @@
 # ################# Start the server and listen for connections ########################################################
 
-import sockets
+import twophase.sockets as sockets
 import sys
 
 

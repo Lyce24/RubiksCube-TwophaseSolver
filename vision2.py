@@ -5,7 +5,7 @@
 
 import cv2
 import numpy as np
-import vision_params
+import twophase.vision_params as vision_params
 
 grid_N = 25  # number of grid-squares in vertical direction
 
@@ -264,6 +264,7 @@ def find_squares(bgrcap, n):
     # search for squares in the white_mask and in the color_mask
     for j in itr:
         # find contours
+        # works for OpenCV 3.0 or higher. For versions < 3.2 omit im2 in the line below.
         # different handling in different opencv versions
         if major == 3:
             im2, contours, hierarchy = cv2.findContours(j, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
