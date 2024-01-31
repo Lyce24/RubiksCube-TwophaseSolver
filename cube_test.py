@@ -47,13 +47,9 @@ class MLP(nn.Module):
         self.layers = nn.Sequential(
             nn.Linear(4730, 1024),   # Input layer with 3 inputs (x, y, z)
             nn.ReLU(),          # Activation function
-            nn.Linear(1024, 512), # First hidden layer
+            nn.Linear(1024, 256), # First hidden layer
             nn.ReLU(),          # Activation function
-            nn.Linear(512, 256), # Second hidden layer
-            nn.ReLU(),          # Activation function
-            nn.Linear(256, 64),
-            nn.ReLU(),          # Activation function
-            nn.Linear(64, 13)
+            nn.Linear(256, 13)  
         )
 
     def forward(self, x):
