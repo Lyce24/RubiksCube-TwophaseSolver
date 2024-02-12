@@ -53,6 +53,7 @@ class MLP(nn.Module):
             nn.Linear(1024, 256), # First hidden layer
             nn.ReLU(),          # Activation function
             nn.Linear(256, 2)   # Outputting distribution for 0 and 1
+            # nn.Linear(256, 1)   # Outputting distribution for 0 and 1
         )
 
     def forward(self, x):
@@ -62,7 +63,7 @@ class MLP(nn.Module):
 model = MLP()  # Adding 1 because class count starts from 0
 
 # Define the optimizer and loss function
-optimizer = optim.Adam(model.parameters(), lr=0.001)
+optimizer = optim.Adam(model.parameters(), lr=0.0002)
 
 
 # Set matplotlib to interactive mode
@@ -76,8 +77,11 @@ train_losses = []
 num_epochs = 150  # Adjust this as needed
 prev_loss = 0
 count = 0
+
+model.train()  # Set the model to training mode
+
 for epoch in range(num_epochs):
-    train_X, train_Y = generate_data(5000)
+    train_X, train_Y = generate_data(10000)
     
     features = train_X
     labels = train_Y
@@ -89,6 +93,8 @@ for epoch in range(num_epochs):
     for i in range(labels.shape[0]):
         move_dict[labels[i].item()] += 1
     
+    print(move_dict)
+    
     class_count = []
     for key in move_dict:
         class_count.append(move_dict[key])
@@ -97,19 +103,18 @@ for epoch in range(num_epochs):
     total_samples = labels.shape[0]
     class_weights = total_samples / (class_counts * len(class_counts))
     criterion = nn.CrossEntropyLoss(weight=class_weights.float())
+    # criterion = nn.BCEWithLogitsLoss()
         # Create TensorDataset
     train_data = TensorDataset(features, labels)
 
     # Define batch size
-    batch_size = 128
+    batch_size = 256
 
     # Create DataLoader
     train_loader = DataLoader(dataset=train_data, batch_size=batch_size, shuffle=True)
 
-    
-    model.train()  # Set the model to training mode
-    if count == 15:
-        print("The loss has not changed in 15 epochs. Stopping training.")
+    if count == 25:
+        print("The loss has not changed in 25 epochs. Stopping training.")
         break
     else:         
         total_loss = 0.0           
@@ -118,9 +123,8 @@ for epoch in range(num_epochs):
             optimizer.zero_grad()
             # Forward pass
             outputs = model(inputs)
-            loss = criterion(outputs, targets.view(-1))  # Ensure labels are correctly shaped
-
-            # Backward and optimize
+            loss = criterion(outputs, targets.view(-1))
+            # loss = criterion(outputs, targets.float())  # Ensure labels are correctly shaped
 
             loss.backward()
             optimizer.step()
@@ -130,11 +134,12 @@ for epoch in range(num_epochs):
         avg_loss = total_loss / len(train_loader)
         train_losses.append(avg_loss)
         
-        if abs(prev_loss - avg_loss) < 0.001:
+        if abs(prev_loss - avg_loss) < 0.002:
             count += 1
         else:
             count = 0
         prev_loss = avg_loss
+        
         # Update the plot
         ax.clear()
         ax.plot(train_losses, label='Training Loss')

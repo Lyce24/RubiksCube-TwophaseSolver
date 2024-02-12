@@ -1,9 +1,16 @@
 import twophase.coord as coord
 import twophase.cubie as cubie
 
-cube = cubie.CubieCube()
-cube.randomize()
-co, eo, ud_slice = cube.get_twist(), cube.get_flip(), cube.get_slice()
-print(co, eo, ud_slice)
-      
-print(coord.CoordCube(cube).get_depth_phase1())
+move_dict = {}
+
+for i in range(10000):
+    cube = cubie.CubieCube()
+    cube.randomize()
+
+    if coord.CoordCube(cube).get_depth_phase1() not in move_dict:
+        move_dict[coord.CoordCube(cube).get_depth_phase1()] = 1
+    else:
+        move_dict[coord.CoordCube(cube).get_depth_phase1()] += 1
+        
+print(move_dict)
+
