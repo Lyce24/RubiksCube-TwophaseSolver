@@ -147,16 +147,16 @@ class SolverThread(thr.Thread):
                     break
 
         else:
-            print("Phase 1:")
+            # print("Phase 1:")
             for m in Move:
                 # dist = 0 means that we are already are in the subgroup H. If there are less than 5 moves left
                 # this forces all remaining moves to be phase 2 moves. So we can forbid these at the end of phase 1
                 # and generate these moves in phase 2.
                 
-                print("---------------------------")
-                print("m:", m)
-                print("dist:", dist)
-                print("togo_phase1:", togo_phase1)
+                # print("---------------------------")
+                # print("m:", m)
+                # print("dist:", dist)
+                # print("togo_phase1:", togo_phase1)
                 
                 if dist == 0 and togo_phase1 < 5 and m in [Move.U1, Move.U2, Move.U3, Move.R2,
                                                            Move.F2, Move.D1, Move.D2, Move.D3,
@@ -180,21 +180,21 @@ class SolverThread(thr.Thread):
                 if dist_new >= togo_phase1:  # impossible to reach subgroup H in togo_phase1 - 1 moves
                     continue
                 
-                print("flip_new:", flip_new)
-                print("twist_new:", twist_new)
-                print("slice_sorted_new:", slice_sorted_new)
-                print("dist_new:", dist_new)
-                print("togo_phase1:", togo_phase1)
+                # print("flip_new:", flip_new)
+                # print("twist_new:", twist_new)
+                # print("slice_sorted_new:", slice_sorted_new)
+                # print("dist_new:", dist_new)
+                # print("togo_phase1:", togo_phase1)
 
-                print("---------------------------")
+                # print("---------------------------")
                 self.sofar_phase1.append(m)
                 self.search(flip_new, twist_new, slice_sorted_new, dist_new, togo_phase1 - 1)
                 self.sofar_phase1.pop(-1)
 
     def run(self):
-        print("Thread started")
+        # print("Thread started")
         cb = None
-        print("rot:", self.rot)
+        # print("rot:", self.rot)
         
         # rotate/invert cube
         if self.rot == 0:  # no rotation
@@ -212,15 +212,15 @@ class SolverThread(thr.Thread):
             cb.inv_cubie_cube(tmp)
             cb = tmp
             
-        print("cb:", cb)
+        # print("cb:", cb)
 
         self.co_cube = coord.CoordCube(cb)  # the rotated/inverted cube in coordinate representation
-        print("co_cube:", self.co_cube)
+        # print("co_cube:", self.co_cube)
 
         dist = self.co_cube.get_depth_phase1()
-        print("dist:", dist)
+        # print("dist:", dist)
         
-        print("Start search:")
+        # print("Start search:")
         for togo1 in range(dist, 20):  # iterative deepening, solution has at least dist moves
             self.sofar_phase1 = []
             self.search(self.co_cube.flip, self.co_cube.twist, self.co_cube.slice_sorted, dist, togo1)
@@ -236,15 +236,15 @@ def solve(cubestring, max_length=20, timeout=3):
      :param timeout: If the function times out, the best solution found so far is returned. If there has not been found
      any solution yet the computation continues until a first solution appears.
     """
-    print("Solving...")
-    print("Cube:", cubestring)
+    # print("Solving...")
+    # print("Cube:", cubestring)
     fc = face.FaceCube()
     s = fc.from_string(cubestring)
-    print("FaceCube from string:", s)
+    # print("FaceCube from string:", s)
     if s != cubie.CUBE_OK:
         return s  # Error in facelet cube
     cc = fc.to_cubie_cube()
-    print("CubieCube from FaceCube:", cc)
+    # print("CubieCube from FaceCube:", cc)
     s = cc.verify()
     if s != cubie.CUBE_OK:
         return s  # Error in cubie cube
@@ -352,18 +352,3 @@ def solveto(cubestring, goalstring, max_length=20, timeout=3):
             s += m.name + ' '
     return s + '(' + str(len(s) // 3) + 'f)'
 ########################################################################################################################
-
-cubestring = 'DUUBULDBFRBFRRULLLBRDFFFBLURDBFDFDRFRULBLUFDURRBLBDUDL'
-print(solve(cubestring,19,2))
-
-# print("Test")
-# cb = cubie.CubieCube()
-# cb.multiply(cubie.moveCube[Move.R1])
-# print("cb:", cb)
-# co_cube = coord.CoordCube(cb)  # the rotated/inverted cube in coordinate representation
-# print("co_cube:", co_cube)
-
-# dist = co_cube.get_depth_phase1()
-# print("dist:", dist)
-# dist = co_cube.get_depth_phase2(0,0)
-# print("dist:", dist)

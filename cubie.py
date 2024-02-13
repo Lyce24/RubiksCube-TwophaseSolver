@@ -559,12 +559,3 @@ for c1 in Color:
         cc.multiply(basicMoveCube[c1])
         moveCube[3 * c1 + k1] = CubieCube(cc.cp, cc.co, cc.ep, cc.eo)
 ########################################################################################################################
-
-cube = CubieCube()
-# basic = CubieCube()
-# # do a U turn
-cube.multiply(moveCube[0])
-print(cube.cp)
-# print(basic)
-print(cube.corner_parity())
-print(cube.edge_parity())
